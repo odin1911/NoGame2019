@@ -156,14 +156,39 @@
 
 {
     let s = 'Hello world!';
-
     s.startsWith('Hello') // true
     s.endsWith('!') // true
     s.includes('o') // true
 
     let s = 'Hello world!';
-
     s.startsWith('world', 6) // true
     s.endsWith('Hello', 5) // true
     s.includes('Hello', 6) // false
+    // endsWith的行为与其他两个方法有所不同。它针对前n个字符，而其他两个方法针对从第n个位置直到字符串结束
+}
+
+{
+    'x'.repeat(3) // "xxx"
+    'hello'.repeat(2) // "hellohello"
+    'na'.repeat(0) // ""
+}
+
+{
+    'x'.padStart(5, 'ab') // 'ababx'
+    'x'.padStart(4, 'ab') // 'abax'
+
+    'x'.padEnd(5, 'ab') // 'xabab'
+    'x'.padEnd(4, 'ab') // 'xaba'
+
+    // 省略第二个参数，默认使用空格补全长度
+    'x'.padStart(4) // '   x'
+    'x'.padEnd(4) // 'x   '
+}
+
+{
+    const s = '  abc  ';
+
+    s.trim() // "abc"
+    s.trimStart() // "abc  "
+    s.trimEnd() // "  abc"
 }
