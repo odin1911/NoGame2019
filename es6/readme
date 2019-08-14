@@ -1,0 +1,3 @@
+tsc test_es6.ts
+
+node test_es6.js
