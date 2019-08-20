@@ -144,3 +144,62 @@
 
     // /s修饰符和多行修饰符/m不冲突，两者一起使用的情况下，.匹配所有字符，而^和$匹配每一行的行首和行尾。
 }
+
+{
+    // 先行断言”指的是，x只有在y前面才匹配，必须写成/x(?=y)/
+    let r1 = /\d+(?=%)/.exec('100% of US presidents have been male')  // ["100"]
+    console.log(`/\d+(?=%)/ r1`, r1)
+    console.log()
+    // “先行否定断言”指的是，x只有不在y前面才匹配，必须写成/x(?!y)/
+    let r2 = (/\d+(?!%)/).exec('that’s all 44 of them')                 // ["44"]
+    console.log(`/\d+(?!%)/ r2`, r2)
+    // “先行断言”括号之中的部分（(?=%)），是不计入返回结果的
+    console.log()
+}
+
+{
+    // “后行断言”，x只有在y后面才匹配，必须写成/(?<=y)x/
+    /(?<=\$)\d+/.exec('Benjamin Franklin is on the $100 bill')  // ["100"]
+        // “后行否定断言”则与“先行否定断言”相反，x只有不在y后面才匹配，必须写成/(?<!y)x/
+        (/(?<!\$)\d+/).exec('it’s is worth about €90')                // ["90"]
+}
+
+{
+    // Unicode 属性类, \p{...}和\P{...}
+}
+
+{
+    // “具名组匹配”在圆括号内部，模式的头部添加“问号 + 尖括号 + 组名”（?<year>），然后就可以在exec方法返回结果的groups属性上引用该组名
+    const RE_DATE = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/;
+    const matchObj = RE_DATE.exec('1999-12-31');
+    const year = matchObj.groups.year; // 1999
+    const month = matchObj.groups.month; // 12
+    const day = matchObj.groups.day; // 31
+    console.log('具名组匹配', year, month, day)
+    // 如果具名组没有匹配，那么对应的groups对象属性会是undefined
+    // 使用$<组名>引用具名组
+    // 解构赋值和替换
+    let re = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/u;
+    // replace方法的第二个参数是一个字符串
+    '2015-01-02'.replace(re, '$<day>/$<month>/$<year>')
+    // replace方法的第二个参数也可以是函数
+    '2015-01-02'.replace(re, (
+        matched, // 整个匹配结果 2015-01-02
+        capture1, // 第一个组匹配 2015
+        capture2, // 第二个组匹配 01
+        capture3, // 第三个组匹配 02
+        position, // 匹配开始的位置 0
+        S, // 原字符串 2015-01-02
+        groups // 具名组构成的一个对象 {year, month, day}
+    ) => {
+        let { day, month, year } = groups;
+        return `${day}/${month}/${year}`;
+    });
+}
+
+{
+    // 如果要在正则表达式内部引用某个“具名组匹配”，可以使用\k<组名>的写法
+    const RE_TWICE = /^(?<word>[a-z]+)!\k<word>$/;
+    RE_TWICE.test('abc!abc') // true
+    RE_TWICE.test('abc!ab') // false
+}
