@@ -1,4 +1,4 @@
-// 解构 
+// 解构  
 {
     // 解构
     let data = { first: 111, second: 222 }
