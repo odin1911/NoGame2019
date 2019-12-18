@@ -124,6 +124,10 @@
     console.log('move({})', move({}))
     console.log('move()', move())
     console.log()
+    // move({ x: 3, y: 8 })[3, 8]
+    // move({ x: 3 })[3, 0]
+    // move({})[0, 0]
+    // move()[0, 0]
 }
 
 {
@@ -137,6 +141,10 @@
     console.log('move2({})', move2({}))
     console.log('move2()', move2())
     console.log()
+    // move2({ x: 3, y: 8 })[3, 8]
+    // move2({ x: 3 })[3, undefined]
+    // move2({})[undefined, undefined]
+    // move2()[0, 0]
 }
 
 {
